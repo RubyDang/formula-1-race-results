@@ -1,0 +1,15 @@
+#header, #footer {
+    background-color: rgb(var(--darker-red-rbg));
+  }
+  #header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000000;
+    transition: all linear 300ms;
+  }
+  
+  #header a, #footer a, #footer span {
+    color: rgb(var(--foreground-rgb))
+  }

@@ -1,0 +1,18 @@
+:root {
+    --foreground-rgb: 223, 223, 223;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+
+    /* Main Theme Color */
+    /* RGB */
+    --darkest-red-rbg: 62, 0, 2/* , 1, */;
+    --darker-red-rbg: 124, 2, 3/* , 1, */;
+    --red-rbg: 186, 5, 0;
+    --lighter-red-rbg: 248, 9, 0;
+
+    /* RGBA */
+    --darkest-red-rbga: 62, 0, 2, 0.5;
+    --darker-red-rbga: 124, 2, 3, 0.5;
+    --red-rbga: 186, 5, 0, 0.5;
+    --lighter-red-rbga: 248, 9, 0, 0.5;
+}
