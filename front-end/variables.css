@@ -9,10 +9,6 @@
     --darker-red-rbg: 124, 2, 3/* , 1, */;
     --red-rbg: 186, 5, 0;
     --lighter-red-rbg: 248, 9, 0;
+    --gray-100-rgb: 248, 249, 250;
 
-    /* RGBA */
-    --darkest-red-rbga: 62, 0, 2, 0.5;
-    --darker-red-rbga: 124, 2, 3, 0.5;
-    --red-rbga: 186, 5, 0, 0.5;
-    --lighter-red-rbga: 248, 9, 0, 0.5;
 }
