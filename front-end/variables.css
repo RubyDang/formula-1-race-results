@@ -9,6 +9,39 @@
     --darker-red-rbg: 124, 2, 3/* , 1, */;
     --red-rbg: 186, 5, 0;
     --lighter-red-rbg: 248, 9, 0;
+
+    /*GRAY COLORS*/
     --gray-100-rgb: 248, 249, 250;
+    --gray-200-rgb: 233, 236, 239;
+    --gray-300-rgb: 222, 225, 230;
+    --gray-400-rgb: 206, 212, 218;
+    --gray-500-rgb: 173, 181, 189;
+    --gray-600-rgb: 108, 117, 125;
+    --gray-700-rgb: 73, 80, 87;
+    --gray-800-rgb: 52, 58, 64;
+    --gray-900-rgb: 33, 37, 41;
+
+    /* RED COLORS */
+    --red-100-rgb: 248, 215, 218;
+    --red-200-rgb: 241, 174, 181;
+    --red-300-rgb: 234, 134, 143;
+    --red-400-rgb: 227, 93, 106;
+    --red-500-rgb: 220, 53, 69;
+    --red-600-rgb: 176 42 55;
+    --red-700-rgb: 132 32 41;
+    --red-800-rgb: 88 21 28;
+    --red-900-rgb: 44 11 14;
+
+
+    /* ORANGE COLORS */
+    --orange-100-rgb: 255, 229, 208;
+    --orange-200-rgb: 254, 203, 161;
+    --orange-300-rgb: 254, 178, 114;
+    --orange-400-rgb: 253, 152, 67;
+    --orange-500-rgb: 253, 126, 20;
+    --orange-600-rgb: 202, 101, 16;
+    --orange-700-rgb: 152, 76, 12;
+    --orange-800-rgb: 101, 50, 8;
+    --orange-900-rgb: 51, 25, 4;
 
 }

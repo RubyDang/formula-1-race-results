@@ -147,7 +147,7 @@ export async function getDriversHTMLByYear(year=moment().format('YYYY')) {
 }
 
 export async function getDriversHTMLByYear_SubCat(year=moment().format('YYYY'), subCat:string){
-    return await axios.get(`https://www.formula1.com/en/results.html/${year}/driverss/${subCat}.html`)
+    return await axios.get(`https://www.formula1.com/en/results.html/${year}/drivers/${subCat}.html`)
     .then(res=>{
         console.log(`get ${subCat}.html by year and driver name - success`);
         return res.data
