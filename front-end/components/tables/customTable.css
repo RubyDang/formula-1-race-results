@@ -51,7 +51,12 @@
     border: none;
 }
 
-.custom-table a{
-    color: rgb(var(--red-600-rgb));
+.custom-table-pagination li.disabled, .custom-table-pagination a:hover, .custom-table-pagination a:focus{
+    color:rgb(var(--red-600-rgb));
+    box-shadow: none;
+}
+
+.custom-table-pagination a{
     text-decoration: none;
+    color: rgb(var(--red-600-rgb));
 }

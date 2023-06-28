@@ -1,20 +1,18 @@
 import { customDataCategory } from "@/utils/interfaces";
 import { Col, Container, Row } from "react-bootstrap";
-import CustomTable from "../tables/CustomTable";
-import CustomVerticalChart from "../charts/customVerticalChart_TwoBars";
+import CustomTableLive from "../tables/CustomTableLive";
+import CustomVerticalChart from "../charts/customVerticalChartTwoBars";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { capitalizeFirstLetter } from "@/utils/functions";
+import { capitalizeFirstLetter, capitalizeFirstLetterOfEachWord, getColorFromCSS } from "@/utils/functions";
 
 export default function RacesDetailsComponent({dataInput, category="", years=[], navItems=[]}:{dataInput: customDataCategory, category:string, years:[], navItems:[]}) {
     const {query: {name, year}} = useRouter();
     const [ data, setData ]  = useState<{[key:string]:any}[]>([]);
-	
 	const colors = [
-		window.getComputedStyle(document.documentElement).getPropertyValue('--red-500-rgb'),
-		window.getComputedStyle(document.documentElement).getPropertyValue('--orange-400-rgb'),
-	]
-	
+        getColorFromCSS(document.documentElement, "--orange-500-rgb"),
+        getColorFromCSS(document.documentElement, "--red-500-rgb"),
+    ]
 	useEffect(()=>{
 		let dataSets:{[key:string]:any}[] =[];
 		if(dataInput.content?.length>0){
@@ -38,14 +36,15 @@ export default function RacesDetailsComponent({dataInput, category="", years=[],
     <Container fluid className="custom-heading">
         <Row>
             <Col>
-            <h1>F1 - Grand Prix: {typeof name == 'string' && capitalizeFirstLetter(name.split("-").join(" "))}</h1>
+            <h1>F1 - Grand Prix: {typeof name == 'string' && capitalizeFirstLetterOfEachWord(name.split("-").join(" "))}</h1>
             </Col>
         </Row>
     </Container>
     <Container fluid>
         <Row>
             <Col>
-                <CustomTable
+                <CustomTableLive
+                title={`Grand Prix: ${typeof name == 'string' && (capitalizeFirstLetterOfEachWord(name.split("-").join(" ")) + " - ")}Race Result`}
                 data={dataInput}
                 category={category}
                 years={years}
@@ -56,6 +55,8 @@ export default function RacesDetailsComponent({dataInput, category="", years=[],
         <Row>
             <Col>
                 <CustomVerticalChart
+                xAxis="name"
+                yAixs={[]}
                 data={data}
                 title={`Driver's laps and PTS in ${dataInput.year}`}
                 colors={colors}

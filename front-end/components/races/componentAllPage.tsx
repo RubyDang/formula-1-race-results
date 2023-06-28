@@ -1,26 +1,12 @@
 import { customDataCategory } from "@/utils/interfaces";
 import { Col, Container, Row } from "react-bootstrap";
-import CustomTable from "../tables/CustomTable";
+import CustomTableLive from "../tables/CustomTableLive";
 import { useEffect, useState } from "react";
-import CustomLineBarChart from "../charts/cutomLineBarChart";
+import CustomTimeIncludedBarChart from "../charts/customTimeIncludedBarChart";
 import moment from "moment";
 
 export default function RacesAllComponent({dataInput, category="", years=[], navItems=[]}:{dataInput: customDataCategory, category:string, years:[], navItems:[]}) {
-    const [dataCarsNames, setDataCarsNames] = useState([]);
-    const [dataWinnerNames, setDataWinnerNames] = useState([]);
     const [data, setData] = useState<{[key:string]:any}[]>([]);
-
-    const COLORS = [
-        window.getComputedStyle(document.documentElement).getPropertyValue('--red-800-rgb'),
-        window.getComputedStyle(document.documentElement).getPropertyValue('--red-700-rgb'),
-        window.getComputedStyle(document.documentElement).getPropertyValue('--red-600-rgb'),
-        window.getComputedStyle(document.documentElement).getPropertyValue('--red-500-rgb'),
-        window.getComputedStyle(document.documentElement).getPropertyValue('--orange-500-rgb'),
-        window.getComputedStyle(document.documentElement).getPropertyValue('--orange-600-rgb'),
-        window.getComputedStyle(document.documentElement).getPropertyValue('--orange-700-rgb'),
-        window.getComputedStyle(document.documentElement).getPropertyValue('--orange-800-rgb'),
-        window.getComputedStyle(document.documentElement).getPropertyValue('--orange-900-rgb'),
-    ];
 
     useEffect(()=>{
         let dataSets:{[key:string]:any}[] =[];
@@ -30,7 +16,7 @@ export default function RacesAllComponent({dataInput, category="", years=[], nav
                     // console.log(item[item.length-1], moment(item[arr.length-1],"HH:mm:ss.000").format("HH:mm:ss.000"));
 					dataSets.push({
                         GP:item[0],
-                        name:`${item[2]}, ${item[3]}`,
+                        name:`${item[3]}, ${item[2]}`,
                         laps:parseInt(item[4]),
                         time:moment(item[item.length-1],"HH:mm:ss.000").valueOf()
 
@@ -53,7 +39,8 @@ export default function RacesAllComponent({dataInput, category="", years=[], nav
     <Container fluid>
         <Row>
             <Col>
-                <CustomTable
+                <CustomTableLive
+                title={"Races Results List"}
                 data={dataInput}
                 category={category}
                 years={years}
@@ -63,10 +50,9 @@ export default function RacesAllComponent({dataInput, category="", years=[], nav
         </Row>
         <Row>
             <Col>
-                <CustomLineBarChart
+                <CustomTimeIncludedBarChart
                 data={data}
                 title={"Driver's Laps and time Chart in " + dataInput.year}
-                colors={COLORS}
                 />
             </Col>
         </Row>

@@ -1,6 +1,9 @@
 import * as cheerio from 'cheerio';
 import moment from 'moment';
 
+export const capitalizeFirstLetterOfEachWord = (str:string) =>{
+    return str.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())
+}
 export function capitalizeFirstLetter(string:string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -42,17 +45,46 @@ export function compare(a:any, b:any) {
     return a>b?1:-1; // or whatever logic to sort within non-alphanumeric values
 }
 
+import "../variables.css";
+
+export const getColorFromCSS = (elt:Element, nameVar:string) => {
+    return getComputedStyle(elt).getPropertyValue(nameVar);
+}
+// = [
+//     //Red color values
+//     getComputedStyle(document.documentElement).getPropertyValue('--red-200-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--red-300-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--red-400-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--red-500-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--red-600-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--red-700-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--red-800-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--red-900-rgb'),
+
+//     // Oranges color values
+//     getComputedStyle(document.documentElement).getPropertyValue('--orange-200-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--orange-300-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--orange-400-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--orange-500-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--orange-600-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--orange-700-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--orange-800-rgb'),
+//     getComputedStyle(document.documentElement).getPropertyValue('--orange-900-rgb'),
+
+//     // 
+// ];
+
 
 // GET YEARS NAVIGATION ITEMS
 // RESULTS HTML
 export function getResultsYearsItemsByHTML (html:string){
     const $ = cheerio.load(html)
     let options = $('a[data-name="year"]');
-    const values:(number|undefined)[] = []; 
+    const values:(string|number|undefined)[] = []; 
     
     options.each((_index, el) => {
         let elVal = $(el).attr('data-value') ?? undefined;
-        values.push( elVal ? (parseInt(elVal)) : undefined);
+        values.push( elVal || undefined);
     })
     
     console.log('get results years - finished')
@@ -102,44 +134,51 @@ export function getTeamsNavItemsByHTML (html:string){
 
 
 // GET TABLE CONTENT OF HTML
-export function getTableContentByHTML (html:string){
+export function getTableContentByHTML (html:string, category:string=""){
     let keys = getTableKeysByHTML(html)
     const $ = cheerio.load(html)
+    let date = $(`.resultsarchive-content-header.group p.date`).children()
+    let dateTemp:string[] = [];
+    date.each((_index, el)=>{
+        let dateTexts = $(el).text().replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split("\n").filter(i=>i)??[]
+        dateTemp.push(dateTexts.join('-'))
+    })
     let contentKeys = $('table.resultsarchive-table tbody td[class!="limiter"]');
     let content : any[] = [];
     const contentTemp:string[] = [];
     let objFilter:any[] = []
-    
     contentKeys.each((_index, el) => {
-        // contentTemp.push($(el).text()??"")
         let words:string[] = $(el).text().replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split("\n").filter(i=>i)??[]
         if(words?.length>2){
             words = [words[0], words[1]]
         }
         contentTemp.push(words.join(' '))
-        // content.push({
-        //     [keys[_index%keys.length]]:$(el).text().replace(/\s/gm,'')??""
-        // });
     })
-
+    
     for (let i = 0; i < contentTemp.length; i++) {
         let item:string|number = contentTemp[i];
         let keyIndex = i%keys.length;
+        // content.push(dateTemp[dateTemp.length-1])
         if(keyIndex==keys.findIndex(key=>key.toLowerCase()=='date')){
             item = moment(item,'DD-MMM-YYYY').format("DD/MM/YYYY")
         }
-        // objFilter
-        // console.log(objFilter, keyIndex ==keys.length-1)
         if(keyIndex==0){
-            objFilter=[item]
+            if(category!=""){
+                objFilter=[category]
+                objFilter.push(item)
+            }else{
+                objFilter=[item]
+
+            }
         }else{
             objFilter.push(item)
             if(keyIndex==keys.length-1){
+                if(dateTemp?.length>0)
+                    objFilter.push(dateTemp[date.length-1])
                 content.push(objFilter)
             }
         }
     }
-
     return content;
 }
 

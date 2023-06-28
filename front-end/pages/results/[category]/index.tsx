@@ -3,7 +3,7 @@ import Header from "@/components/header";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/variables.css';
-import './category.css';
+import '../../category.css';
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getDriversHTMLByYear, getDriversHTMLByYear_SubCat, getRacesHTMLByYear, getRacesHTMLByYear_SubCat, getResultsHTML, getTeamsHTMLByYear, getTeamsHTMLByYear_SubCat } from "@/apis/getData";
@@ -15,7 +15,7 @@ import moment from "moment";
 import { catParams } from "@/utils/interfaces";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import CustomTable from "@/components/tables/CustomTable";
+import CustomTable from "@/components/tables/CustomTableLive";
 import CustomRacesVerticalChart from "@/components/charts/customVerticalChart_TwoBars";
 import CustomDriverChart from "@/components/charts/customDriverCharts";
 import RacesAllComponent from "@/components/races/componentAllPage";
@@ -24,18 +24,8 @@ import DriversAllComponent from "@/components/drivers/componentAllPage";
 import DriversDetailsComponent from "@/components/drivers/componentDetailPage";
 import TeamsAllComponent from "@/components/teams/componentAllPage";
 import TeamsDetailsComponent from "@/components/teams/componentDetailPage";
+import { functionsGetData } from "@/utils/constanst";
 
-const functionsGetData: { [K: string]: Function } = {
-    getRacesHTMLByYear: getRacesHTMLByYear,
-    getTeamsHTMLByYear: getTeamsHTMLByYear,
-    getDriversHTMLByYear: getDriversHTMLByYear,
-    getRacesNavItemsByHTML: getRacesNavItemsByHTML,
-    getDriversNavItemsByHTML: getDriversNavItemsByHTML,
-    getTeamsNavItemsByHTML: getTeamsNavItemsByHTML,
-    getRacesHTMLByYear_SubCat:getRacesHTMLByYear_SubCat,
-    getDriversHTMLByYear_SubCat:getDriversHTMLByYear_SubCat,
-    getTeamsHTMLByYear_SubCat:getTeamsHTMLByYear_SubCat,
-};
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     
@@ -47,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     if(["drivers", "races", "teams"].includes(category)){
         let resultsHtml = await getResultsHTML();
-        let years: (number|undefined)[] = getResultsYearsItemsByHTML(resultsHtml);
+        let years: (string| number|undefined)[] = getResultsYearsItemsByHTML(resultsHtml);
         let html:string ="";
 
         //GET NAVIGATIONS ITEMS
@@ -71,7 +61,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                     if(htmlTemp1){
                         let tableKeys = await getTableKeysByHTML(htmlTemp1)
                         let tableConent = await getTableContentByHTML(htmlTemp1)
-                        console.log(tableConent)
                         return { props: {
                             category:category,
                             years:years,
@@ -165,7 +154,7 @@ export default function Categories({category, data, years, navItems}:InferGetSer
             {
                 category === 'teams-all' &&
                 <TeamsAllComponent
-                data={data}
+                dataInput={data}
                 category={category}
                 years={years}
                 navItems={navItems}/>
@@ -178,21 +167,6 @@ export default function Categories({category, data, years, navItems}:InferGetSer
                 years={years}
                 navItems={navItems}/>
             }
-            <Container fluid className="my-5">
-                <Row>
-                    <Col>
-                        {/* {!(/.-all/g.test(category)) && 
-                        (category=='races' ? 
-                        
-                        : */}
-                        {/* category=='drivers' && <CustomDriverChart
-                        category={category}
-                        dataInput={data}
-                        title={category == "drivers"?`Driver PTS charts in ${data.year}`:""}
-                        />)} */}
-                    </Col>
-                </Row>
-            </Container>
         </main>
         <Footer/>
         </div>

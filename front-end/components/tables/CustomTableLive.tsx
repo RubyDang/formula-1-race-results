@@ -9,23 +9,68 @@ import { IoMdRefresh } from "react-icons/io";
 import './customTable.css';
 import { useRouter } from 'next/router';
 import { customDataCategory } from '@/utils/interfaces';
-import moment from 'moment';
 
-export default function CustomTable({data, keys=[], title="", years}:{data: any[], keys:[], title:string, years:[]}){
+export default function CustomTableLive({data, title="", category="", years=[], navItems=[]}:{data: customDataCategory, title:string, category:string, years:[], navItems:[]}){
     const router = useRouter();
     const offsets = [5, 10, 50, 100]
     const [numOfDataShow, setNumOfDataShow] = useState(offsets[0])
-    const [pageNum, setPageNum] = useState(0)
+    const [pageNum, setPageNum] = useState(data.content?.length/numOfDataShow  ||  0)
     const[indexPage, setIndexPage] = useState(0)
 
-    const [bodyData, setBodyData] = useState<any[]>(data||[])
-    const [bodyDataConst, setBodyDataConst] = useState<any[]>(data||[])
-    const [keysConst, setKeysConst] = useState([...keys,"Years"])
+    const [bodyData, setBodyData] = useState(data.content || [])
+    const [bodyDataConst, setBodyDataConst] = useState(data.content || [])
 
     const [searchStr, setSearchStr] = useState("")
-    const [selectedYear, setSelectedYear] = useState((years?.length>0 && years[0])||moment().format("YYYY"))
+    const [selectedYear, setSelectedYear] = useState(data.year||"")
     const [sortByCol, setSortByCol] = useState("")
     const [isASC, setIsASC] = useState(true)
+
+    useEffect(()=>{
+        setBodyDataConst(data.content)
+        if(data.content?.length>0)
+            setBodyData(data.content.slice(0, numOfDataShow))
+    },[data.content, numOfDataShow])
+
+    useEffect(()=>{
+        setPageNum((bodyDataConst?.length || 0)/numOfDataShow)
+    },[bodyDataConst, numOfDataShow])
+
+    useEffect(()=>{
+        setBodyData(bodyDataConst?.slice(indexPage*numOfDataShow, (indexPage*numOfDataShow)+numOfDataShow))
+    },[indexPage, bodyDataConst, numOfDataShow])
+
+    useEffect(()=>{
+        let foundData = []
+        if(searchStr!="" && bodyDataConst?.length>0){
+            for (let i = 0; i < bodyDataConst.length; i++) {
+                const row = bodyDataConst[i];
+                if(row){
+                    let foundIndex = row.findIndex((item:string)=>{
+                        return item.toLowerCase().includes(searchStr.toLowerCase())
+                    })
+                    if(foundIndex>-1){
+                        foundData.push(row)
+                    }
+                }
+                
+            }
+
+            setSortByCol("")
+            setIsASC(true)
+            setBodyData(foundData.filter((i)=>i))
+        }else{
+            setBodyData(bodyDataConst?.slice(indexPage*numOfDataShow, (indexPage*numOfDataShow)+numOfDataShow))
+        }
+    },[bodyDataConst, indexPage, numOfDataShow, searchStr])
+    
+    useEffect(()=>{
+        if(selectedYear!== data.year){
+            router.replace(`/results/${category.replace("-all","")}?year=${selectedYear}${router.query.name ? "&name=" + router.query.name :""}`)
+            setInterval(()=>{
+                router.reload()
+            },1000)
+        }
+    },[data.year, router, searchStr, selectedYear])
 
     const CustomPagination = () => {
         let arrPages = []
@@ -43,6 +88,7 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
                     arrPages.push(<Pagination.Item key={"pargination-num-"+(indexPage-1)} onClick={()=>{setIndexPage(indexPage-1)}}>{indexPage}</Pagination.Item>)
                 }
                 if(indexPage>0){
+                    console.log(indexPage);
                     arrPages.push(<Pagination.Item key={"pargination-num-"+(indexPage)} active={true} onClick={()=>{setIndexPage(indexPage)}}>{indexPage+1}</Pagination.Item>)
                 }
                 if(indexPage+1<pageNum-1){
@@ -64,8 +110,8 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
             }
             arrPages.push(
                 <Pagination.Item key={"pargination-num-"+pageNum} active={(pageNum-1) == indexPage} onClick={()=>{setIndexPage(pageNum-1)}}>{pageNum}</Pagination.Item>,
-                <Pagination.Next key={"pargination-next"} disabled={indexPage ==pageNum-1} onClick={()=>{setIndexPage(indexPage+1)}}/>,
-                <Pagination.Last key={"pargination-last"} disabled={indexPage ==pageNum-1} onClick={()=>{setIndexPage(pageNum-1)}}/>
+                <Pagination.Next key={"pargination-next"} disabled={indexPage==pageNum-1} onClick={()=>{setIndexPage(indexPage+1)}}/>,
+                <Pagination.Last key={"pargination-last"} disabled={indexPage==pageNum-1} onClick={()=>{setIndexPage(pageNum-1)}}/>
             )
         }else{
             for (let i = 0; i < pageNum; i++) {
@@ -75,25 +121,39 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
         return <Pagination className='custom-table-pagination'>{arrPages}</Pagination>;
     }
 
-    // const getParamsOfRow=(row:string[])=>{
-    //     let strArr:string[] = []
-    //     if(row?.length>0 && /.-all/g.test(category)){
-    //         if(category==="races-all"){
-    //             strArr = row[0].replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split(/\s/g).filter(i=>i) || []
-    //             if(strArr?.length >2){
-    //                 strArr = strArr.slice(0, 2)
-    //             }
-    //         }else 
-    //         if(category==="teams-all"){
-    //             strArr = row[1].replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split(/\s/g).filter(i=>i) || []
-    //             return strArr.join('_').toLowerCase()
-    //         }
-    //         if(category==="drivers-all"){
-    //             strArr = row[1].replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split(/\s/g).filter(i=>i) || []
-    //         }
-    //         return strArr.join('-').toLowerCase()
-    //     }
-    // }
+    const getParamsOfRow=(row:string[])=>{
+        let strArr:string[] = []
+        if(row?.length>0 && /.-all/g.test(category)){
+            if(category==="races-all"){
+                strArr = row[0].replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split(/\s/g).filter(i=>i) || []
+                if(strArr?.length >2){
+                    strArr = strArr.slice(0, 2)
+                }
+            }else 
+            if(category==="teams-all"){
+                strArr = row[1].replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split(/\s/g).filter(i=>i) || []
+                return strArr.join('_').toLowerCase()
+            }
+            if(category==="drivers-all"){
+                strArr = row[1].replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split(/\s/g).filter(i=>i) || []
+            }
+            return strArr.join('-').toLowerCase()
+        }
+    }
+
+    useEffect(()=>{
+        if(data.keys?.length>0){
+            let keyIndex = data.keys.indexOf(sortByCol || data.keys[0])
+            if(keyIndex>-1){
+                let test =  bodyDataConst.sort((a:string[]|undefined, b:string[]|undefined)=>{
+                    return compare(a && a[keyIndex], b && b[keyIndex])
+                })
+                test = isASC?test: test.reverse()
+                setBodyDataConst(test);
+                setBodyData(test.slice(0, numOfDataShow))
+            }
+        }
+    },[bodyDataConst, isASC, data.keys, numOfDataShow, sortByCol])
 
     const onClickSort=(key:string)=>{
         if(sortByCol == key){
@@ -104,72 +164,11 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
         }
     }
 
-    useEffect(()=>{
-        setBodyDataConst(data)
-        if(data?.length>0)
-            setBodyData(data.slice(0, numOfDataShow))
-    },[data, numOfDataShow])
-
-    useEffect(()=>{
-        setPageNum((bodyDataConst?.length || 0)/numOfDataShow)
-        // setIndexPage(0)
-    },[bodyData, bodyDataConst?.length, numOfDataShow])
-    
-    useEffect(()=>{
-        setBodyData(bodyDataConst?.slice(indexPage*numOfDataShow, (indexPage*numOfDataShow)+numOfDataShow))
-    },[indexPage, bodyDataConst, numOfDataShow])
-    
-    //Searches for input
-    useEffect(()=>{
-        setIndexPage(0)
-        let indexPageTemp = 0
-        let foundData = []
-        if(searchStr!="" && bodyDataConst?.length>0){
-            for (let i = 0; i < bodyDataConst.length; i++) {
-                const row = bodyDataConst[i];
-                if(row){
-                    let foundIndex = row.findIndex((item:string)=>{
-                        return item.toLowerCase().includes(searchStr.toLowerCase())
-                    })
-                    if(foundIndex>-1){
-                        foundData.push(row)
-                    }
-                }
-                
-            }
-
-            setSortByCol("")
-            setIsASC(true)
-            setBodyData(foundData.filter((i)=>i).slice(indexPageTemp*numOfDataShow, (indexPageTemp*numOfDataShow)+numOfDataShow))
-        }else{
-            setBodyData(bodyDataConst?.slice(indexPageTemp*numOfDataShow, (indexPageTemp*numOfDataShow)+numOfDataShow))
-        }
-    },[bodyDataConst, numOfDataShow, searchStr])
-
-    //sort data by click
-    useEffect(()=>{
-        if(keysConst?.length>0){
-            let keyIndex = keysConst.indexOf(sortByCol || keysConst[0])
-            if(keyIndex>-1){
-                let reverseArr =  bodyDataConst.sort((a:string[]|undefined, b:string[]|undefined)=>{
-                    return compare(a && a[keyIndex], b && b[keyIndex])
-                })
-                reverseArr = isASC?reverseArr: reverseArr.reverse()
-                setBodyDataConst(reverseArr);
-                setBodyData(reverseArr.slice(0, numOfDataShow))
-            }
-        }
-    },[bodyDataConst, isASC, keysConst, numOfDataShow, sortByCol])
 
     return (
         <>
         <Container className="my-5 custom-box-container">
-            <Row className="g-2 justify-content-center align-items-end custom-table-head-container">
-                <Col xl={6} className='justify-content-center text-center'>
-                    <h3>Search box</h3>
-                </Col>
-            </Row>
-            <Row className="pt-4 g-2 justify-content-center align-items-end">
+            <Row className="g-2 justify-content-center align-items-end">
                 <Col md xl={9}>
                     <Form>
                         <Form.Group className="mb-3" controlId="search.searchInput">
@@ -178,6 +177,19 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
                         </Form.Group>
                         
                     </Form>
+                </Col>
+                <Col md>
+                    <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                        <Form.Label>Year</Form.Label>
+                        <Form.Select aria-label="choose year to filter"
+                        onChange={(e)=>{setSelectedYear(e.target.value)}}
+                        value={selectedYear}
+                        >
+                            {years.map((year:string, index:number)=>{
+                                return <option key={`option-${index}`} value={year}>{year}</option>
+                            })}
+                        </Form.Select>
+                    </Form.Group>
                 </Col>
             </Row>
         </Container>
@@ -206,7 +218,7 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
                     </div>
                 </Col>
                 <Col xl={6} className='justify-content-center text-center'>
-                    <h2>{title ?? `List Table`}</h2>
+                    <h2>{title ?? `All ${capitalizeFirstLetterOfEachWord(category.replaceAll("-all",""))} List`}</h2>
                 </Col>
                 <Col>
                 </Col>
@@ -217,7 +229,7 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
                         <thead>
                             <tr>
                                 {
-                                    keysConst?.length>0 && keysConst.map(key=><th key={key} onClick={()=>{onClickSort(key)}}>{key} {key==sortByCol&&(isASC?<FaAngleDown/>: <FaAngleUp/>)}</th>)
+                                    data.keys?.length>0 && data.keys.map(key=><th key={key} onClick={()=>{onClickSort(key)}}>{key} {key==sortByCol&&(isASC?<FaAngleDown/>: <FaAngleUp/>)}</th>)
                                 }
                             </tr>
                         </thead>
@@ -225,7 +237,14 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
                             {bodyData && bodyData.map((row, index)=>{
                             return <tr key={`team-tr-${index}`}>
                                 {row?.map((col:string, i:number)=><td key={`team-tr-${i}`} className="p-0">
+                                {/.-all/g.test(category)?
+                                <Link className="w-100"
+                                href={`/results/${category.replace("-all","")}?year=${data.year}&name=${getParamsOfRow(row)}`}>
                                     <div className="p-2">{col}</div>
+                                </Link>
+                                :
+                                <div className="p-2">{col}</div>
+                                }
                                 </td>)}
                             </tr>})}
                         </tbody>

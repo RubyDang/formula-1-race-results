@@ -1,11 +1,13 @@
+import { CustomTooltip } from '@/utils/elements';
 import '../../variables.css';
-import { customDataCategory } from "@/utils/interfaces";
+import { chartDataType, customDataCategory } from "@/utils/interfaces";
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Bar, BarChart, CartesianGrid, Label, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 
-export default function CustomVerticalChart({data, title="", colors=[]}:{data: any[], title:string, colors:string[]}) {
+export default function CustomVerticalChartMultipleData({data, title="", xAxisTitle="", colors=[]}:chartDataType) {
+	console.log(data)
 	return(
 		<Container className="my-5">
 			<Row>
@@ -26,13 +28,19 @@ export default function CustomVerticalChart({data, title="", colors=[]}:{data: a
 						<CartesianGrid strokeDasharray="3 3" />
 						<XAxis dataKey="name" hide={true} />
 						<XAxis dataKey="id" xAxisId={1} orientation="bottom">
-							<Label value="Racers" height={40} offset={0} position="insideBottom" />
+							<Label value={xAxisTitle} height={40} offset={0} position="insideBottom" />
 						</XAxis>
 						<Legend verticalAlign="top" height={36} />
+						<YAxis yAxisId="left" orientation="left" stroke={`rgb(${colors[0]})`} >
+							<Label value="Number of Laps" offset={0} position="insideLeft" angle={-90}/>
+						</YAxis>
           				<YAxis yAxisId="right" orientation="right" stroke={`rgb(${colors[1]})`} >
 							<Label value="PTS" offset={0} position="insideRight" angle={90}/>
 						</YAxis>
-						<Tooltip />
+						<Tooltip
+						content={<CustomTooltip active={undefined} payload={undefined} label={undefined}/>}
+						/>
+						<Bar yAxisId="left" dataKey="laps" fill={`rgb(${colors[0]})`} />
 						<Bar yAxisId="right" dataKey="pts" fill={`rgb(${colors[1]})`} />
 					</BarChart>
 				</ResponsiveContainer>

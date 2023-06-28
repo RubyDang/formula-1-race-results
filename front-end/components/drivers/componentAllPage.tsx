@@ -1,12 +1,16 @@
 import { customDataCategory } from "@/utils/interfaces";
 import { Col, Container, Row } from "react-bootstrap";
-import CustomTable from "../tables/CustomTable";
-import CustomVerticalChart from "../charts/customVerticalChart_1bar";
+import CustomTableLive from "../tables/CustomTableLive";
+import CustomVerticalChart from "../charts/customVerticalChartOneBar";
 import { useEffect, useState } from "react";
+import { getColorFromCSS } from "@/utils/functions";
 
 export default function DriversAllComponent({dataInput, category="", years=[], navItems=[]}:{dataInput: customDataCategory, category:string, years:[], navItems:[]}) {
     const [data, setData] = useState<{[key:string]:any}[]>([]);
-
+    const colors = [
+        getColorFromCSS(document.documentElement, "--red-600-rgb"),
+        getColorFromCSS(document.documentElement, "--orange-300-rgb"),
+    ]
     useEffect(()=>{
         let dataSets:{[key:string]:any}[] =[];
         let dataSetsCar:{[key:string]:any}[] =[];
@@ -15,8 +19,8 @@ export default function DriversAllComponent({dataInput, category="", years=[], n
 				dataInput.content.map((item:any, index:number, arr:([] | undefined)[])=>{
                     // console.log(item[item.length-1], moment(item[arr.length-1],"HH:mm:ss.000").format("HH:mm:ss.000"));
 					dataSets.push({
-                        name:item[2],
-                        nat:item[3],
+                        name:item[1],
+                        nat:item[2],
                         pts:parseInt(item[item.length-1])
 					})
                     // if(dataSetsCar.find((_car:any, _index:number, obj:{})=>{
@@ -42,7 +46,8 @@ export default function DriversAllComponent({dataInput, category="", years=[], n
     <Container fluid>
         <Row>
             <Col>
-                <CustomTable
+                <CustomTableLive
+                title="Drivers List"
                 data={dataInput}
                 category={category}
                 years={years}
@@ -52,7 +57,11 @@ export default function DriversAllComponent({dataInput, category="", years=[], n
         </Row>
         <Row>
             <Col>
-                {/* <CustomVerticalChart/> */}
+                <CustomVerticalChart
+                colors={colors}
+                data={data}
+                title={`Driver Points Chart in ${dataInput.year}`}
+                />
             </Col>
         </Row>
     </Container>
