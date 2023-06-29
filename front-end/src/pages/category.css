@@ -1,0 +1,82 @@
+.custom-heading{
+    padding: 100px 5% 5% 5%;
+    background-image: linear-gradient(to top right, rgb(var(--red-600-rgb)), rgb(var(--orange-500-rgb)));
+    color: rgb(var(--gray-100-rgb))
+}
+
+.custom-heading-btn:hover{
+    color: rgb(var(--red-500-rgb));
+}
+
+.custom-tab{
+    color: rgb(var(--orange-400-rgb));
+}
+
+.custom-tab:hover{
+    color: rgb(var(--orange-500-rgb));
+}
+
+.custom-tab.active{
+    color: rgb(var(--red-500-rgb)) !important;
+}
+
+.custom-nav-container{
+    background:rgb(var(--red-500-rgb));
+    background:-moz-linear-gradient(rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+    background:-webkit-gradient(left top,right top,color-stop(0%,rgb(var(--red-500-rgb))),color-stop(100%,rgb(var(--orange-500-rgb))));
+    background:-webkit-linear-gradient(rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+    background:-o-linear-gradient(rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+    background:-ms-linear-gradient(rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+    background:linear-gradient(to top,rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(var(--red-500-rgb))',endColorstr='rgb(var(--orange-500-rgb))',GradientType=1);
+    display: flex;
+    padding:0
+}
+
+.custom-nav-container .nav.nav-pills{
+    background:transparent;
+    border:none;
+    box-shadow:0 0 #ccc;
+    width: 100%;
+    margin:0
+}
+.custom-nav-container .nav.nav-pills > .nav-item:hover, .custom-nav-container .nav.nav-pills > .nav-item:has(.nav-link.active){
+    background-color: transparent;
+}
+.custom-nav-container .nav.nav-pills > .nav-item{
+    border:none;
+    float:none;
+    margin:0;
+    padding:10px 20px;
+    background-color:#fff;
+}
+.custom-nav-container .nav.nav-pills > .nav-item:hover > .nav-link, .custom-nav-container .nav.nav-pills > .nav-item > .nav-link.active{
+    border:none;
+    color: white !important;;
+    text-transform:none;
+    background: none!important;
+    -webkit-text-fill-color:inherit;
+    -webkit-background-clip:unset!important;
+}
+
+/* Magic */
+.custom-nav-container .nav.nav-pills > .nav-item > .nav-link{
+  background:rgb(var(--red-500-rgb));
+  background:-moz-linear-gradient(45deg,rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+  background:-webkit-gradient(left top,right top,color-stop(0%,rgb(var(--red-500-rgb))),color-stop(100%,rgb(var(--orange-500-rgb))));
+  background:-webkit-linear-gradient(45deg,rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+  background:-o-linear-gradient(45deg,rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+  background:-ms-linear-gradient(45deg,rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+  background:linear-gradient(to top,rgb(var(--red-500-rgb)) 0%,rgb(var(--orange-500-rgb)) 90%);
+  
+   background-attachment: fixed;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  /*This last 3 lines are important for the magic*/
+    /* font: 400 20px Oswald; */
+    width: 100%;
+}
+
+.custom-nav-container .nav.nav-pills > .custom-nav-container .nav-item > .nav-link:hover, .nav.nav-pills > .nav-item:hover > .nav-link:hover{
+    color:white !important;
+}
