@@ -213,7 +213,6 @@ export function getTableContentByHTML_subCateIsAll (html:string){
         const item = contentTemp[i];
         let keyIndex = i%keys.length;
         objFilter = {...objFilter, [keys[keyIndex]]:item}
-        // console.log(objFilter, keyIndex ==keys.length-1)
         if(keyIndex==keys.length-1){
             content.push(objFilter)
         }

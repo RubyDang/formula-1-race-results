@@ -1,6 +1,3 @@
-import Footer from "@/src/components/footer";
-import Header from "@/src/components/header";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../variables.css';
 import '../../category.css';
@@ -9,11 +6,11 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getDriversHTMLByYear, getDriversHTMLByYear_SubCat, getRacesHTMLByYear, getRacesHTMLByYear_SubCat, getResultsHTML, getTeamsHTMLByYear, getTeamsHTMLByYear_SubCat } from "@/src/apis/getData";
 import { capitalizeFirstLetter, getDataByFunctionName, getDriversNavItemsByHTML, getRacesNavItemsByHTML, getResultsYearsItemsByHTML, getTableContentByHTML, getTableContentByHTML_subCateIsAll, getTableKeysByHTML, getTeamsNavItemsByHTML } from "@/src/utils/functions";
 
-import { Button, Col, Container, FloatingLabel, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, FloatingLabel, Form, Row, SSRProvider } from "react-bootstrap";
 
 import moment from "moment";
 import { catParams } from "@/src/utils/interfaces";
-import { useRouter } from "next/router";
+import { Router, useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import RacesAllComponent from "@/src/components/races/componentAllPage";
 import RacesDetailsComponent from "@/src/components/races/componentDetailPage";
@@ -24,6 +21,9 @@ import TeamsDetailsComponent from "@/src/components/teams/componentDetailPage";
 import { functionsGetData } from "@/src/utils/constanst";
 import Loader from "@/src/components/loader";
 import Cookies from 'universal-cookie';
+import NextNProgress from 'nextjs-progressbar';
+import Header from '@/src/components/header';
+import Footer from '@/src/components/footer';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     
@@ -49,11 +49,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
 
         //GET DATA
-        // htmlTemp = await getDataByFunctionName(functionsGetData,`get${capitalizeFirstLetter(category)}HTMLByYear`, `${year}`)??""
-        if(typeof htmlTemp == "string"){
+         if(typeof htmlTemp == "string"){
             if(name){
                 let foundNavItem = navItems.find((navItem:string) => navItem.includes(name))
-                // console.log(navItems, foundNavItem)
                 if(foundNavItem){
                     let htmlTemp1 = await getDataByFunctionName(functionsGetData,`get${capitalizeFirstLetter(category)}HTMLByYear_SubCat`, `${year}`, `${foundNavItem}`)??""
                     if(htmlTemp1){
@@ -113,16 +111,16 @@ export default function ResultsCategories({category, data, years, navItems}:Infe
 
 
     useEffect(()=>{
-        console.log("COOKIE CHANEG", cookies.get("isLoading"));
         if(cookies.get('isLoading'))
             setIsLoading(cookies.get("isLoading"));
     },[cookies])
+      
     return (
-        <>
+        <SSRProvider>
+        <NextNProgress/>
         <div>
         <Header/>
         <main className="position-relative">
-            {isLoading!="false" ? <Loader/>:<>
             {
                 category === 'races-all' &&
                 <RacesAllComponent
@@ -170,11 +168,11 @@ export default function ResultsCategories({category, data, years, navItems}:Infe
                 category={category}
                 years={years}
                 navItems={navItems}/>
-            }</>}
+            }
         </main>
         <Footer/>
         </div>
-    </>
+    </SSRProvider>
     )
     
 }

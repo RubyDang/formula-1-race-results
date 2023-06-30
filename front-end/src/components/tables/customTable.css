@@ -40,6 +40,7 @@
     padding-top: 2%;
 }
 
+
 .custom-table-pagination{
     background-image: linear-gradient(to top right, rgb(var(--red-600-rgb)), rgb(var(--orange-500-rgb)));
     width: fit-content;
@@ -59,4 +60,9 @@
 .custom-table-pagination a{
     text-decoration: none;
     color: rgb(var(--red-600-rgb));
+}
+
+a.custom-link{
+    color: rgb(var(--background-start-rgb));
+    text-decoration: none;
 }

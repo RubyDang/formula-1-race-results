@@ -1,5 +1,4 @@
-import Footer from "@/src/components/footer";
-import Header from "@/src/components/header";
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../variables.css';
@@ -9,7 +8,7 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { getDriversHTMLByYear, getDriversHTMLByYear_SubCat, getRacesHTMLByYear, getRacesHTMLByYear_SubCat, getResultsHTML, getTeamsHTMLByYear, getTeamsHTMLByYear_SubCat } from "@/src/apis/getData";
 import { capitalizeFirstLetter, capitalizeFirstLetterOfEachWord, getDataByFunctionName, getDriversNavItemsByHTML, getRacesNavItemsByHTML, getResultsYearsItemsByHTML, getTableContentByHTML, getTableContentByHTML_subCateIsAll, getTableKeysByHTML, getTeamsNavItemsByHTML } from "@/src/utils/functions";
 
-import { Button, Col, Container, FloatingLabel, Form, Nav, Row, Tab, Tabs } from "react-bootstrap";
+import { Button, Col, Container, FloatingLabel, Form, Nav, Row, SSRProvider, Tab, Tabs } from "react-bootstrap";
 
 import moment from "moment";
 import _ from "lodash";
@@ -24,7 +23,10 @@ import CustomVerticalChartMultipleData from "@/src/components/charts/customVerti
 import CustomVerticalChart from "@/src/components/charts/customVerticalChartOneBar";
 import Loader from "@/src/components/loader";
 
+import NextNProgress from 'nextjs-progressbar';
 import Cookies from 'universal-cookie';
+import Header from '@/src/components/header';
+import Footer from '@/src/components/footer';
 
 export async function getServerSideProps(context:any){
     let { category, year, name }:catParams = context.query as catParams ?? {
@@ -38,7 +40,7 @@ export async function getServerSideProps(context:any){
     
     if(["drivers", "races", "teams"].includes(category)){
         let resultsHtml = await getResultsHTML();
-        let years: (string|number|undefined)[] = getResultsYearsItemsByHTML(resultsHtml).slice(0, 5);
+        let years: (string|number|undefined)[] = getResultsYearsItemsByHTML(resultsHtml).slice(0, 3);
         let html:string ="";
         
         //GET NAVIGATIONS ITEMS
@@ -74,7 +76,7 @@ export async function getServerSideProps(context:any){
                 //         }
                 //     }
                 // }
-                listNavItems = (await getDataByFunctionName(functionsGetData,`get${capitalizeFirstLetter(category)}NavItemsByHTML`, htmlTemp)).slice(0,6)
+                listNavItems = (await getDataByFunctionName(functionsGetData,`get${capitalizeFirstLetter(category)}NavItemsByHTML`, htmlTemp)).slice(0,5)
                 let foundAll = listNavItems.findIndex((itemNav:any)=>itemNav=='all')
                 if(foundAll>-1){
                     listNavItems = listNavItems.slice(foundAll+1)
@@ -95,6 +97,7 @@ export async function getServerSideProps(context:any){
                 }
                 for (let indexItemsNav = 0; indexItemsNav < listNavItems.length; indexItemsNav++) {
                     htmlTempByNav = await getDataByFunctionName(functionsGetData, `get${capitalizeFirstLetter(category)}HTMLByYear_SubCat`,`${years[i]}`, `${listNavItems[indexItemsNav]}`)
+
                     if(typeof htmlTempByNav == "string"){
                         let categoryTemp:any = listNavItems[indexItemsNav].replace(/-|_/gi, " ").split("/")
                         categoryTemp = capitalizeFirstLetterOfEachWord(categoryTemp[categoryTemp.length-1])
@@ -322,18 +325,16 @@ export default function Categories({category, data, years}:InferGetServerSidePro
     }, [router.events]);
 
     useEffect(()=>{
-        console.log("COOKIE CHANEG");
         if(cookies.get('isLoading'))
             setIsLoading(cookies.get("isLoading"));
     },[cookies])
 
     return (
-        <>
+        <SSRProvider>
+        <NextNProgress/>
         <div>
         <Header/>
         <main className="position-relative">
-            {isLoading !=="false" ?
-            <Loader />:<>
             <Container fluid className="custom-heading pt-5">
                 <Row className="pt-4">
                     <Col className="mt-4 mt-md-0">
@@ -444,11 +445,11 @@ export default function Categories({category, data, years}:InferGetServerSidePro
                     </Row>
                 </Tab.Container>
                 
-            </Container></>}
+            </Container>
         </main>
         <Footer/>
         </div>
-    </>
+    </SSRProvider>
     )
     
 }

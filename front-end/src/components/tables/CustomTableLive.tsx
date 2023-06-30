@@ -88,7 +88,6 @@ export default function CustomTableLive({data, title="", category="", years=[], 
                     arrPages.push(<Pagination.Item key={"pargination-num-"+(indexPage-1)} onClick={()=>{setIndexPage(indexPage-1)}}>{indexPage}</Pagination.Item>)
                 }
                 if(indexPage>0){
-                    console.log(indexPage);
                     arrPages.push(<Pagination.Item key={"pargination-num-"+(indexPage)} active={true} onClick={()=>{setIndexPage(indexPage)}}>{indexPage+1}</Pagination.Item>)
                 }
                 if(indexPage+1<pageNum-1){
@@ -200,15 +199,16 @@ export default function CustomTableLive({data, title="", category="", years=[], 
         </Container>
         <Container fluid className={`position-relative custom-box-container pt-5`}>
             <Row className='g-2 w-100 position-absolute top-0 start-50 translate-middle custom-table-head-container m-0'>
-                <Col md={4} sm={12} className="order-2 order-md-1">
+                <Col md={3} sm={12} className="order-2 order-md-1">
                     <div className='d-flex flex-wrap justify-content-center align-items-center'>
                         <div className='mx-2'>Show</div>
                         <Form.Select aria-label="choose number to show on list table"
                         onChange={(e)=>{setNumOfDataShow(parseInt(e.target.value))}}
                         className='w-auto'
+                        value={numOfDataShow}
                         >
                             {offsets.map((offset:number, index:number)=>{
-                                return <option key={`option-offset-${index}`} value={offset} selected={offset==numOfDataShow}>{offset}</option>
+                                return <option key={`option-offset-${index}`} value={offset} >{offset}</option>
                             })}
                         </Form.Select>
                         <div className='mx-2'>Entries</div>
@@ -217,7 +217,7 @@ export default function CustomTableLive({data, title="", category="", years=[], 
                 <Col md={6} sm={12} className='order-1 order-md-2 justify-content-center text-center'>
                     <h2>{title ?? `All ${capitalizeFirstLetterOfEachWord(category.replaceAll("-all",""))} List`}</h2>
                 </Col>
-                <Col>
+                <Col className='order-3'>
                 </Col>
             </Row>
             {(bodyData?.length<1&&searchStr) ? 
@@ -243,7 +243,7 @@ export default function CustomTableLive({data, title="", category="", years=[], 
                             return <tr key={`team-tr-${index}`}>
                                 {row?.map((col:string, i:number)=><td key={`team-tr-${i}`} className="p-0">
                                 {/.-all/g.test(category)?
-                                <Link className="w-100"
+                                <Link className="w-100 custom-link"
                                 href={`/results/${category.replace("-all","")}?year=${data.year}&name=${getParamsOfRow(row)}`}>
                                     <div className="p-2">{col}</div>
                                 </Link>

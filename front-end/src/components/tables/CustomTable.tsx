@@ -75,26 +75,6 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
         return <Pagination className='custom-table-pagination'>{arrPages}</Pagination>;
     }
 
-    // const getParamsOfRow=(row:string[])=>{
-    //     let strArr:string[] = []
-    //     if(row?.length>0 && /.-all/g.test(category)){
-    //         if(category==="races-all"){
-    //             strArr = row[0].replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split(/\s/g).filter(i=>i) || []
-    //             if(strArr?.length >2){
-    //                 strArr = strArr.slice(0, 2)
-    //             }
-    //         }else 
-    //         if(category==="teams-all"){
-    //             strArr = row[1].replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split(/\s/g).filter(i=>i) || []
-    //             return strArr.join('_').toLowerCase()
-    //         }
-    //         if(category==="drivers-all"){
-    //             strArr = row[1].replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"").split(/\s/g).filter(i=>i) || []
-    //         }
-    //         return strArr.join('-').toLowerCase()
-    //     }
-    // }
-
     const onClickSort=(key:string)=>{
         if(sortByCol == key){
             setIsASC(!isASC)
@@ -112,7 +92,6 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
 
     useEffect(()=>{
         setPageNum(Math.ceil((bodyDataConst?.length || 0)/numOfDataShow))
-        // setIndexPage(0)
     },[bodyData, bodyDataConst?.length, numOfDataShow])
     
     useEffect(()=>{
@@ -197,9 +176,10 @@ export default function CustomTable({data, keys=[], title="", years}:{data: any[
                         <Form.Select aria-label="choose number to show on list table"
                         onChange={(e)=>{setNumOfDataShow(parseInt(e.target.value))}}
                         className='w-auto'
+                        value={numOfDataShow}
                         >
                             {offsets.map((offset:number, index:number)=>{
-                                return <option key={`option-offset-${index}`} value={offset} selected={offset==numOfDataShow}>{offset}</option>
+                                return <option key={`option-offset-${index}`} value={offset}>{offset}</option>
                             })}
                         </Form.Select>
                         <div className='mx-2'>Entries</div>

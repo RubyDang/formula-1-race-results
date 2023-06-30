@@ -13,21 +13,13 @@ export default function TeamsAllComponent({dataInput, category="", years=[], nav
         let dataSets:{[key:string]:any}[] =[];
         let dataSetsCar:{[key:string]:any}[] =[];
 		if(dataInput?.content?.length>0){
-			// if(category == "races"){
-				dataInput.content.map((item:any, index:number, arr:([] | undefined)[])=>{
-                    // console.log(item[item.length-1], moment(item[arr.length-1],"HH:mm:ss.000").format("HH:mm:ss.000"));
-					dataSets.push({
-                        name:item[1],
-                        nat:item[2],
-                        pts:parseInt(item[item.length-1])
-					})
-                    // if(dataSetsCar.find((_car:any, _index:number, obj:{})=>{
-                    //     return Object.keys(obj)[0] == item[2]
-                    // })){
-
-                    // }
-				})
-			// }
+            dataInput.content.map((item:any, index:number, arr:([] | undefined)[])=>{
+                dataSets.push({
+                    name:item[1],
+                    nat:item[2],
+                    pts:parseInt(item[item.length-1])
+                })
+            })
 		}
         setData(dataSets)
 

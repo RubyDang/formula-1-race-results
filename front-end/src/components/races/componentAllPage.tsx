@@ -11,10 +11,8 @@ export default function RacesAllComponent({dataInput, category="", years=[], nav
     useEffect(()=>{
         let dataSets:{[key:string]:any}[] =[];
 		if(dataInput?.content?.length>0){
-			// if(category == "races"){
-				dataInput.content.map((item:any, index:number, arr:([] | undefined)[])=>{
-                    // console.log(item[item.length-1], moment(item[arr.length-1],"HH:mm:ss.000").format("HH:mm:ss.000"));
-					dataSets.push({
+			dataInput.content.map((item:any, index:number, arr:([] | undefined)[])=>{
+                dataSets.push({
                         GP:item[0],
                         name:`${item[3]}, ${item[2]}`,
                         laps:parseInt(item[4]),
@@ -22,8 +20,7 @@ export default function RacesAllComponent({dataInput, category="", years=[], nav
 
 					})
 				})
-			// }
-		}
+			}
         setData(dataSets)
     },[dataInput.content])
 

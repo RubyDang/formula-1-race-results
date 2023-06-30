@@ -8,7 +8,6 @@ import { CartesianGrid, Cell, LabelList, Legend, Line, LineChart, Pie, PieChart,
 
 const renderActiveShape = (props:any) => {
     const RADIAN = Math.PI / 180;
-    console.log(props);
     const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, name } = props;
     const sin = Math.sin(-RADIAN * midAngle);
     const cos = Math.cos(-RADIAN * midAngle);
