@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { Button, Carousel, Col, Container, Row } from 'react-bootstrap'
-import StatePool from 'state-pool';
 import AboutPage_Carousel from '../components/aboutPageCarousel';
 import Cookies from 'universal-cookie';
 import { useRouter } from 'next/router';
