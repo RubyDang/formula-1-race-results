@@ -15,10 +15,11 @@
 </ul><h2>Screenshots</h2>
 <hr><p><img src="https://github.com/RubyDang/formula-1-race-results/blob/e0958d4465e0d6c1e0b5cd12d6ba29b29650eb8f/front-end/public/rrffy_page.png" alt=""></p><p><img src="https://github.com/RubyDang/formula-1-race-results/blob/e0958d4465e0d6c1e0b5cd12d6ba29b29650eb8f/front-end/public/rrby_page.png" alt=""></p><h2>Setup</h2>
 <hr><p>Clone down this repository. You will need node and npm installed globally on your machine.</p><h5>Steps</h5><ul>
-<li><h3>Step 1: Installation: </h3><p><code>npm i</code></p></li>
-<li><h3>Step 2: Build Server: </h3><p><code>npm run build</code></p></li>
-<li><h3>Step 3: Start Server: </h3><p><code>npm start</code></p></li>
-<li><h3>Step 4: Visit App: </h3><p><code>localhost:3000</code></p></li>
+<li><h3>Step 1: Go to the front-end file: </h3><p><code>cd front-end</code></p></li>
+<li><h3>Step 2: Installation: </h3><p><code>npm i</code></p></li>
+<li><h3>Step 3: Build Server: </h3><p><code>npm run build</code></p></li>
+<li><h3>Step 4: Start Server: </h3><p><code>npm start</code></p></li>
+<li><h3>Step 5: Visit App: </h3><p><code>localhost:3000</code></p></li>
 </ul><h2>Improvements</h2>
 <hr><ul>
 <li>Find a better way to save data with low run time</li>
