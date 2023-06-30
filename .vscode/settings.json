@@ -1,0 +1,3 @@
+{
+  "eslint.workingDirectories": ["./fe-formula-1-race-results", "./backend"]
+}
