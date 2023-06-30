@@ -23,6 +23,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "next": "13.4.7",
+    "nextjs-progressbar": "^0.0.16",
     "nprogress": "^0.2.0",
     "postcss": "8.4.24",
     "puppeteer": "^20.7.3",
