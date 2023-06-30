@@ -22,5 +22,6 @@
 </ul><h2>Improvements</h2>
 <hr><ul>
 <li>Find a better way to save data with low run time</li>
+<li>Redesign Page for better and more friendly UX/UI</li>
 </ul><h2>Contact</h2>
 <hr><p><span style="margin-right: 30px;"></span><a href="https://github.com/RubyDang"><img target="_blank" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" style="width: 10%;"></a></p>
