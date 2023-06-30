@@ -3,7 +3,6 @@
 import '../variables.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css'
-import { Inter } from 'next/font/google';
 
 // import NProgress from "nprogress";
 import "nprogress/nprogress.css";
@@ -19,7 +18,6 @@ import Cookies from 'universal-cookie';
 
 // import NextNProgress from 'nextjs-progressbar';
 
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'F1 Results',
@@ -43,7 +41,7 @@ export default function RootLayout({
         <title>F1 Results</title>
 
       </head>
-      <body className={inter.className}>
+      <body >
         {/* <NextNProgress/> */}
         <Header/>
           {children}
