@@ -59,32 +59,15 @@ function Header() {
             </NavDropdown>
             <NavDropdown
               className='mx-lg-3 custom-dropdown py-3'
-              title="Results First Five Years"
+              title="Fews Results In 3 Years"
               id={`offcanvasNavbarDropdown-expand-md-1`}
             >
-              <NavDropdown.Item className={`h-100 custom-dropdown-item`} href="/five-years-results/races" onClick={onClick}>Race Results</NavDropdown.Item>
-              <NavDropdown.Item className={`h-100 custom-dropdown-item`} href="/five-years-results/teams" onClick={onClick}>Teams</NavDropdown.Item>
-              <NavDropdown.Item className={`h-100 custom-dropdown-item`} href="/five-years-results/drivers" onClick={onClick}>Drivers</NavDropdown.Item>
+              <NavDropdown.Item className={`h-100 custom-dropdown-item`} href="/fewer-results/races" onClick={onClick}>Race Results</NavDropdown.Item>
+              <NavDropdown.Item className={`h-100 custom-dropdown-item`} href="/fewer-results/teams" onClick={onClick}>Teams</NavDropdown.Item>
+              <NavDropdown.Item className={`h-100 custom-dropdown-item`} href="/fewer-results/drivers" onClick={onClick}>Drivers</NavDropdown.Item>
             </NavDropdown>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
-
-        {/* <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <NavDropdown title="Races Result By Years" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/results/races" onClick={()=>onClick()}>Race Results</NavDropdown.Item>
-              <NavDropdown.Item href="/results/teams" onClick={()=>onClick()}>Teams</NavDropdown.Item>
-              <NavDropdown.Item href="/results/drivers" onClick={()=>onClick()}>Drivers</NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title="Races Result First Five Years" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/five-years-results/races" onClick={()=>onClick()}>Race Results</NavDropdown.Item>
-              <NavDropdown.Item href="/five-years-results/teams" onClick={()=>onClick()}>Teams</NavDropdown.Item>
-              <NavDropdown.Item href="/five-years-results/drivers" onClick={()=>onClick()}>Drivers</NavDropdown.Item>
-            </NavDropdown>
-            
-          </Nav>
-        </Navbar.Collapse> */}
       </Container>
     </Navbar>
   );
