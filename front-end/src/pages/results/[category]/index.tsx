@@ -3,15 +3,14 @@ import '../../../variables.css';
 import '../../category.css';
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { getDriversHTMLByYear, getDriversHTMLByYear_SubCat, getRacesHTMLByYear, getRacesHTMLByYear_SubCat, getResultsHTML, getTeamsHTMLByYear, getTeamsHTMLByYear_SubCat } from "@/src/apis/getData";
-import { capitalizeFirstLetter, getDataByFunctionName, getDriversNavItemsByHTML, getRacesNavItemsByHTML, getResultsYearsItemsByHTML, getTableContentByHTML, getTableContentByHTML_subCateIsAll, getTableKeysByHTML, getTeamsNavItemsByHTML } from "@/src/utils/functions";
+import { getResultsHTML } from "@/src/apis/getData";
+import { capitalizeFirstLetter, getDataByFunctionName, getResultsYearsItemsByHTML, getTableContentByHTML, getTableKeysByHTML, } from "@/src/utils/functions";
 
-import { Button, Col, Container, FloatingLabel, Form, Row, SSRProvider } from "react-bootstrap";
+import {  SSRProvider } from "react-bootstrap";
 
-import moment from "moment";
 import { catParams } from "@/src/utils/interfaces";
-import { Router, useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import RacesAllComponent from "@/src/components/races/componentAllPage";
 import RacesDetailsComponent from "@/src/components/races/componentDetailPage";
 import DriversAllComponent from "@/src/components/drivers/componentAllPage";
@@ -19,7 +18,7 @@ import DriversDetailsComponent from "@/src/components/drivers/componentDetailPag
 import TeamsAllComponent from "@/src/components/teams/componentAllPage";
 import TeamsDetailsComponent from "@/src/components/teams/componentDetailPage";
 import { functionsGetData } from "@/src/utils/constanst";
-import Loader from "@/src/components/loader";
+// import Loader from "@/src/components/loader";
 import Cookies from 'universal-cookie';
 import NextNProgress from 'nextjs-progressbar';
 import Header from '@/src/components/header';
@@ -73,7 +72,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                     destination:`/results/${category}?year=${year}`,
                     permanent:true,
                 }}
-                // navItems.push(listNavItems)
+                
             }else{
                 let tableKeys = await getTableKeysByHTML(htmlTemp)
                 let tableConent = await getTableContentByHTML(htmlTemp)

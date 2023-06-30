@@ -1,4 +1,3 @@
-import { type } from "os";
 import { ParsedUrlQuery } from "querystring";
 
 export interface catParams extends ParsedUrlQuery {

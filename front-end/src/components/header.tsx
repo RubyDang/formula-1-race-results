@@ -1,5 +1,4 @@
 'use client'
-import Image from 'next/image';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -59,7 +58,7 @@ function Header() {
             </NavDropdown>
             <NavDropdown
               className='mx-lg-3 custom-dropdown py-3'
-              title="Fews Results In 3 Years"
+              title="Few Results In 3 Years"
               id={`offcanvasNavbarDropdown-expand-md-1`}
             >
               <NavDropdown.Item className={`h-100 custom-dropdown-item`} href="/fewer-results/races" onClick={onClick}>Race Results</NavDropdown.Item>

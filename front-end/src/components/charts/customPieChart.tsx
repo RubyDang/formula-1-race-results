@@ -2,9 +2,9 @@
 
 import { capitalizeFirstLetterOfEachWord } from "@/src/utils/functions";
 import { chartDataType, customDataCategory } from "@/src/utils/interfaces";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Col, Container, Row, Tooltip } from "react-bootstrap";
-import { CartesianGrid, Cell, LabelList, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Sector, XAxis, YAxis } from "recharts";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Sector } from "recharts";
 
 
 const renderActiveShape = (props:any) => {

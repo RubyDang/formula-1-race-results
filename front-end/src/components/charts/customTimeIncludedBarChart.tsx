@@ -1,10 +1,9 @@
 import moment from 'moment';
 import '../../variables.css';
 import './customCharts.css'
-import { customDataCategory } from "@/src/utils/interfaces";
-import React, { useEffect, useState } from "react";
+import React  from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { Bar, BarChart, CartesianGrid, ComposedChart, Label, Legend, Line, ResponsiveContainer, Scatter, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, CartesianGrid, ComposedChart, Label, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { capitalizeFirstLetterOfEachWord } from '@/src/utils/functions';
 
 const CustomTooltip = ({ active, payload, label }: { active:any, payload:any, label:any }) => {

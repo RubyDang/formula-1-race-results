@@ -1,10 +1,7 @@
 .custom-box-container{
-    /* background-color: red; */
-    /* padding: 2% 1%; */
     border-radius: 8px;
     border: 1px solid rgb(var(--gray-200-rgb));
     box-shadow: 1px 1px rgb(var(--gray-300-rgb));
-    /* position: relative; */
 }
 
 .circle-border-white{
@@ -20,11 +17,6 @@
 }
 
 .custom-table-head-container{
-    /* position: absolute;
-    top: -30px;
-    left: 2%;
-    right: 2%; */
-    /* bottom:100%; */
     background-image: linear-gradient(to top right, rgb(var(--red-600-rgb)), rgb(var(--orange-500-rgb)));
     border: 1px solid rgb(var(--gray-200-rgb));
     box-shadow: 1px 1px rgb(var(--gray-300-rgb));

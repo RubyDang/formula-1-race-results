@@ -50,30 +50,6 @@ import "../variables.css";
 export const getColorFromCSS = (elt:Element, nameVar:string) => {
     return getComputedStyle(elt).getPropertyValue(nameVar);
 }
-// = [
-//     //Red color values
-//     getComputedStyle(document.documentElement).getPropertyValue('--red-200-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--red-300-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--red-400-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--red-500-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--red-600-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--red-700-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--red-800-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--red-900-rgb'),
-
-//     // Oranges color values
-//     getComputedStyle(document.documentElement).getPropertyValue('--orange-200-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--orange-300-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--orange-400-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--orange-500-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--orange-600-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--orange-700-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--orange-800-rgb'),
-//     getComputedStyle(document.documentElement).getPropertyValue('--orange-900-rgb'),
-
-//     // 
-// ];
-
 
 // GET YEARS NAVIGATION ITEMS
 // RESULTS HTML
@@ -158,7 +134,6 @@ export function getTableContentByHTML (html:string, category:string=""){
     for (let i = 0; i < contentTemp.length; i++) {
         let item:string|number = contentTemp[i];
         let keyIndex = i%keys.length;
-        // content.push(dateTemp[dateTemp.length-1])
         if(keyIndex==keys.findIndex(key=>key.toLowerCase()=='date')){
             item = moment(item,'DD-MMM-YYYY').format("DD/MM/YYYY")
         }

@@ -5,23 +5,23 @@ import '../../../variables.css';
 import '../../category.css';
 
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import { getDriversHTMLByYear, getDriversHTMLByYear_SubCat, getRacesHTMLByYear, getRacesHTMLByYear_SubCat, getResultsHTML, getTeamsHTMLByYear, getTeamsHTMLByYear_SubCat } from "@/src/apis/getData";
+import { getResultsHTML } from "@/src/apis/getData";
 import { capitalizeFirstLetter, capitalizeFirstLetterOfEachWord, getDataByFunctionName, getDriversNavItemsByHTML, getRacesNavItemsByHTML, getResultsYearsItemsByHTML, getTableContentByHTML, getTableContentByHTML_subCateIsAll, getTableKeysByHTML, getTeamsNavItemsByHTML } from "@/src/utils/functions";
 
-import { Button, Col, Container, FloatingLabel, Form, Nav, Row, SSRProvider, Tab, Tabs } from "react-bootstrap";
+import { Button, Col, Container, Nav, Row, SSRProvider, Tab } from "react-bootstrap";
 
 import moment from "moment";
 import _ from "lodash";
 import { catParams } from "@/src/utils/interfaces";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { functionsGetData } from "@/src/utils/constanst";
 import CustomTable from "@/src/components/tables/CustomTable";
 import CustomTimeIncludedBarChart from "@/src/components/charts/customTimeIncludedBarChart";
 import CustomPieChart from "@/src/components/charts/customPieChart";
 import CustomVerticalChartMultipleData from "@/src/components/charts/customVerticalChartTwoBars";
 import CustomVerticalChart from "@/src/components/charts/customVerticalChartOneBar";
-import Loader from "@/src/components/loader";
+// import Loader from "@/src/components/loader";
 
 import NextNProgress from 'nextjs-progressbar';
 import Cookies from 'universal-cookie';
@@ -29,31 +29,19 @@ import Header from '@/src/components/header';
 import Footer from '@/src/components/footer';
 
 export async function getServerSideProps(context:any){
-    let { category, year, name }:catParams = context.query as catParams ?? {
+    let { category }:catParams = context.query as catParams ?? {
         category: "races"
     } as catParams;
     let dataList:{[key:string|number]: any} ={
         content:{},
         all:{}
     }
-    let navItems:any[] = []
     
     if(["drivers", "races", "teams"].includes(category)){
         let resultsHtml = await getResultsHTML();
         let years: (string|number|undefined)[] = getResultsYearsItemsByHTML(resultsHtml).slice(0, 3);
-        let html:string ="";
         
         //GET NAVIGATIONS ITEMS
-        if(!year){
-            year = `${years[0]}`
-        }
-        if(!years.includes(year)){
-            return { redirect: {
-                destination:`/ten-years-results/${category}?year=2023`,
-                permanent:true,
-            }}
-        }
-        
         let htmlTemp = ""
         for (let i = 0; i < years.length; i++) {
             htmlTemp = await getDataByFunctionName(functionsGetData,`get${capitalizeFirstLetter(category)}HTMLByYear`, `${years[i]}`)
@@ -61,21 +49,10 @@ export async function getServerSideProps(context:any){
             if(typeof htmlTemp == "string"){
                 let tableKeys = await getTableKeysByHTML(htmlTemp);
                 let tableConent = await getTableContentByHTML(htmlTemp); 
-                // if(dataList.all){
                     dataList.all[`${years[i]}`]={
                             keys: tableKeys,
                             content: tableConent.slice(0,6)
                         }
-                    // }
-                // } else{
-                //     dataList.all = {
-                //         ...dataList.all,
-                //         [`${years[i]}`]:{
-                //             keys: tableKeys,
-                //             content: tableConent
-                //         }
-                //     }
-                // }
                 listNavItems = (await getDataByFunctionName(functionsGetData,`get${capitalizeFirstLetter(category)}NavItemsByHTML`, htmlTemp)).slice(0,5)
                 let foundAll = listNavItems.findIndex((itemNav:any)=>itemNav=='all')
                 if(foundAll>-1){
@@ -123,11 +100,10 @@ export async function getServerSideProps(context:any){
                 years:years,
                 data:dataList}
             }
-        }else{
-            return {
-                redirect:{
-                    destination:'/'
-                }
+        }
+        return {
+            redirect:{
+                destination:'/'
             }
         }
         
@@ -151,7 +127,6 @@ export default function Categories({category, data, years}:InferGetServerSidePro
     ]
     const router = useRouter();
     const [isLoading, setIsLoading] = useState("true");
-    const [index, setIndex] = useState(0);
     const [dataTableInput, setDataTabelInput] = useState<any>();
     const [dataYearWinnerChartInput, setDataYearWinnerChartInput] = useState<any>();
     const [dataChart, setDataChartInput] = useState<any>({});

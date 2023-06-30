@@ -1,5 +1,4 @@
 'use client'
-import Image from "next/image";
 import { Container, Navbar } from "react-bootstrap";
 
 import './componentGlobal.css';

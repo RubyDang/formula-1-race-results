@@ -1,10 +1,9 @@
 import { customDataCategory } from "@/src/utils/interfaces";
 import { Col, Container, Row } from "react-bootstrap";
 import CustomTableLive from "../tables/CustomTableLive";
-import CustomVerticalChart_MultipleData from "../charts/customVerticalChartTwoBars";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { capitalizeFirstLetter, capitalizeFirstLetterOfEachWord, getColorFromCSS } from "@/src/utils/functions";
+import { capitalizeFirstLetterOfEachWord, getColorFromCSS } from "@/src/utils/functions";
 import CustomVerticalChart from "../charts/customVerticalChartOneBar";
 
 export default function DriversDetailsComponent({dataInput, category="", years=[], navItems=[]}:{dataInput: customDataCategory, category:string, years:[], navItems:[]}) {

@@ -73,10 +73,10 @@ export default function AboutPage_Carousel() {
             <Container fluid>
                 <Row className="align-items-center align-content-center">
                     <Col sm={12} md={6} lg={6} className="order-1 d-flex flex-wrap flex-column position-relative justify-content-center align-content-center custom-carousel-img-container">
-                        <p className="h2">Results First Five Years - page</p>
+                        <p className="h2">Few Results In Three Years - page</p>
                         <p>This page contain the data for each year displayed on the search box</p>
-                        <p>To navigate to the page. Click on the &#34;Results First Five Years&#34; on the header navbar.<br/>Or:</p>
-                        <Button variant="outline-dark" className="mt-3"><Link href={'/results/races'}>Click here to see more</Link></Button>
+                        <p>To navigate to the page. Click on the &#34;Few Results In Three Years&#34; on the header navbar.<br/>Or:</p>
+                        <Button variant="outline-dark" className="mt-3"><Link href={'/fewer-results/races'}>Click here to see more</Link></Button>
                     </Col>
                     <Col sm={12} md={6} lg={6} className="d-none d-md-block order-2 d-md-flex flex-wrap flex-column position-relative custom-carousel-img-container">
                         <Image

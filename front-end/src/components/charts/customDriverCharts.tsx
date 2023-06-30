@@ -1,9 +1,9 @@
 // import '../../variables.css';
 
-import { chartDataType, customDataCategory } from "@/src/utils/interfaces";
-import { useEffect, useState } from "react";
+import { chartDataType } from "@/src/utils/interfaces";
+import { useState } from "react";
 import { Col, Container, Row, Tooltip } from "react-bootstrap";
-import { CartesianGrid, Cell, LabelList, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Sector, XAxis, YAxis } from "recharts";
+import { CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Sector, XAxis, YAxis } from "recharts";
 
 
 const renderActiveShape = (props:any) => {

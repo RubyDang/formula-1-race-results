@@ -4,7 +4,7 @@ import CustomTableLive from "../tables/CustomTableLive";
 import CustomVerticalChart from "../charts/customVerticalChartTwoBars";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { capitalizeFirstLetter, capitalizeFirstLetterOfEachWord, getColorFromCSS } from "@/src/utils/functions";
+import { capitalizeFirstLetterOfEachWord, getColorFromCSS } from "@/src/utils/functions";
 
 export default function RacesDetailsComponent({dataInput, category="", years=[], navItems=[]}:{dataInput: customDataCategory, category:string, years:[], navItems:[]}) {
     const {query: {name, year}} = useRouter();

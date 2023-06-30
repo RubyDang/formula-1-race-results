@@ -1,14 +1,11 @@
 import '../../variables.css';
-import { capitalizeFirstLetter, capitalizeFirstLetterOfEachWord, compare } from "@/src/utils/functions";
-import Link from "next/link";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { Button, Col, Container, Form, Pagination, Row, Table } from "react-bootstrap";
+import { compare } from "@/src/utils/functions";
+import { useEffect, useState } from "react";
+import { Col, Container, Form, Pagination, Row, Table } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp, } from "react-icons/fa";
-import { IoMdRefresh } from "react-icons/io";
 
 import './customTable.css';
 import { useRouter } from 'next/router';
-import { customDataCategory } from '@/src/utils/interfaces';
 import moment from 'moment';
 
 export default function CustomTable({data, keys=[], title="", years}:{data: any[], keys:[], title:string, years:(string | number | undefined)[]}){

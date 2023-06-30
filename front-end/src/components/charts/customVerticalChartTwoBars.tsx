@@ -1,7 +1,7 @@
 import { CustomTooltip } from '@/src/utils/elements';
 import '../../variables.css';
-import { chartDataType, customDataCategory } from "@/src/utils/interfaces";
-import React, { useEffect, useState } from "react";
+import { chartDataType } from "@/src/utils/interfaces";
+import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Bar, BarChart, CartesianGrid, Label, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 

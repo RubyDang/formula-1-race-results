@@ -1,10 +1,9 @@
 import '../../variables.css';
-import { capitalizeFirstLetter, capitalizeFirstLetterOfEachWord, compare } from "@/src/utils/functions";
+import { capitalizeFirstLetterOfEachWord, compare } from "@/src/utils/functions";
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { Button, Col, Container, Form, Pagination, Row, Table } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Col, Container, Form, Pagination, Row, Table } from "react-bootstrap";
 import { FaAngleDown, FaAngleUp, } from "react-icons/fa";
-import { IoMdRefresh } from "react-icons/io";
 
 import './customTable.css';
 import { useRouter } from 'next/router';
